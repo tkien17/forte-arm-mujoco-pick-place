@@ -1,0 +1,64 @@
+<mujoco model="pick_and_place_scene">
+  <!-- Pull in the Franka Panda arm (7 joints + 2-finger gripper). -->
+  <!-- Paths are relative to THIS file, so the include + its meshes resolve. -->
+  <include file="panda.xml"/>
+
+  <statistic center="0.4 0 0.3" extent="1.2"/>
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.35 0.35 0.35" specular="0 0 0"/>
+    <rgba haze="0.15 0.25 0.35 1"/>
+    <global azimuth="140" elevation="-25"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.3 0.5 0.7" rgb2="0 0 0"
+      width="512" height="3072"/>
+    <texture type="2d" name="groundplane" builtin="checker" mark="edge"
+      rgb1="0.2 0.3 0.4" rgb2="0.1 0.2 0.3" markrgb="0.8 0.8 0.8"
+      width="300" height="300"/>
+    <material name="groundplane" texture="groundplane" texuniform="true"
+      texrepeat="5 5" reflectance="0.2"/>
+    <material name="table" rgba="0.6 0.45 0.3 1"/>
+  </asset>
+
+  <worldbody>
+    <camera name="demo_cam" pos="1.4 -1.1 1.0" xyaxes="0.75 0.66 0 -0.28 0.32 0.90"/>
+    <light pos="0 0 1.5" dir="0 0 -1" directional="true"/>
+    <geom name="floor" size="0 0 0.05" type="plane" material="groundplane"/>
+
+    <!-- TABLE: a solid box the cubes rest on, in front of the arm.
+         Top surface is at z = 0.2 (pos.z 0.1 + half-height 0.1). -->
+    <body name="table" pos="0.5 0 0.1">
+      <geom name="table_top" type="box" size="0.35 0.4 0.1"
+            material="table" friction="1 0.5 0.01"/>
+    </body>
+
+    <!-- THREE COLORED CUBES (free-floating, will fall and rest on the table).
+         Each has a <freejoint> so physics can move it freely in 3D. -->
+    <body name="cube_red" pos="0.40 -0.20 0.25">
+      <freejoint/>
+      <geom name="cube_red" type="box" size="0.02 0.02 0.02"
+            rgba="0.9 0.2 0.2 1" friction="1 0.5 0.01" mass="0.05"/>
+    </body>
+    <body name="cube_green" pos="0.50 0.00 0.25">
+      <freejoint/>
+      <geom name="cube_green" type="box" size="0.02 0.02 0.02"
+            rgba="0.2 0.8 0.3 1" friction="1 0.5 0.01" mass="0.05"/>
+    </body>
+    <body name="cube_blue" pos="0.40 0.20 0.25">
+      <freejoint/>
+      <geom name="cube_blue" type="box" size="0.02 0.02 0.02"
+            rgba="0.2 0.4 0.9 1" friction="1 0.5 0.01" mass="0.05"/>
+    </body>
+
+    <!-- THREE TARGET PADS: flat visual markers (no collision) showing where
+         each cube should go. 'site' = a massless marker, perfect for goals. -->
+    <site name="target_red"   pos="0.65 -0.20 0.201" size="0.03 0.03 0.001"
+          type="box" rgba="0.9 0.2 0.2 0.4"/>
+    <site name="target_green" pos="0.65  0.00 0.201" size="0.03 0.03 0.001"
+          type="box" rgba="0.2 0.8 0.3 0.4"/>
+    <site name="target_blue"  pos="0.65  0.20 0.201" size="0.03 0.03 0.001"
+          type="box" rgba="0.2 0.4 0.9 0.4"/>
+  </worldbody>
+</mujoco>
