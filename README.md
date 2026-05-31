@@ -8,7 +8,7 @@ quantitative evaluation over randomized episodes.
 
 Runs entirely on **CPU** — no GPU required.
 
-![Pick and place demo](media/demo.gif)
+![Pick and place demo](robotic-arm-pick-and-place/media/demo.gif)
 
 ## Highlights
 
@@ -24,7 +24,7 @@ Runs entirely on **CPU** — no GPU required.
 
 Evaluated over 12 episodes with cubes randomized across the reachable workspace:
 
-![Success rates](media/success_rates.png)
+![Success rates](robotic-arm-pick-and-place/media/success_rates.png)
 
 | Cube  | Success rate |
 |-------|--------------|
