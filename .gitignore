@@ -1,0 +1,4 @@
+__pycache__/
+*.py[cod]
+.venv/
+robotic-arm-pick-and-place/outputs/

@@ -1,0 +1,61 @@
+{
+  "description": "User-supplied Forte URDF and ten CAD meshes; copied without modification",
+  "source_directory": "C:\\Users\\tkien\\Downloads\\Forte_URDF_Kien",
+  "files": [
+    {
+      "file": "ForteME.urdf",
+      "bytes": 22847,
+      "sha256": "be8f7a028d706feb9d3bb899065adf9e0adde46541071a20e9aec8ebc9dff60f"
+    },
+    {
+      "file": "base_link.stl",
+      "bytes": 4431084,
+      "sha256": "81444cb8c209a79013dece7ae5459d37517f8c611cdc5075c4f4ca7b3cae627d"
+    },
+    {
+      "file": "elbow_link.stl",
+      "bytes": 5154084,
+      "sha256": "585b758e4d54abff518d9fc04efc6dbc452ae68d535d835f691babd54819c65c"
+    },
+    {
+      "file": "gripper_base_link.stl",
+      "bytes": 3145284,
+      "sha256": "9cbfd174d1ed63730e565cf226ab20de3498932bcad103fb1e6c0e39a64d4e18"
+    },
+    {
+      "file": "l_end_effector_link.stl",
+      "bytes": 417884,
+      "sha256": "9b75f9060aeaf850b6105dbc6b6d385148eeb951dbca879cb8a23ed40452a965"
+    },
+    {
+      "file": "lower_arm_link.stl",
+      "bytes": 1395784,
+      "sha256": "ac12dbf46d8037bae21deb2e7e6875ac867daf7edf3070b9b4b1cab9b8649bd5"
+    },
+    {
+      "file": "r_end_effector_link.stl",
+      "bytes": 417884,
+      "sha256": "f44bdc2ba5b859a0c6882329e5a96f3cd1111efdf62a12e3cf8708e1b2e5872d"
+    },
+    {
+      "file": "shoulder_pitch_link.stl",
+      "bytes": 6622084,
+      "sha256": "c125fa3f50afd9ef6a8dda8c9511ea3281389a1fa38ec22d6922bc04e9728605"
+    },
+    {
+      "file": "shoulder_yaw_link.stl",
+      "bytes": 9483084,
+      "sha256": "1a32aa7136984dbc8f8ad8f68d89a4b3e7a0b0e053e895861179c981eaf1d140"
+    },
+    {
+      "file": "upper_arm_link.stl",
+      "bytes": 9829084,
+      "sha256": "97688a7f6b4ba4274c9f7ef793668e1235f9c91102cb13a7957b7d1a01d79eda"
+    },
+    {
+      "file": "wrist_link.stl",
+      "bytes": 4107384,
+      "sha256": "8431d6fce0e2a513e8a99c12db69100ebdd1c84940573264325d3d26953f585a"
+    }
+  ]
+}

@@ -1,123 +1,105 @@
-# Robotic Arm Pick-and-Place System (MuJoCo)
+# MuJoCo robotic arm pick-and-place
 
-A 7-DOF Franka Emika Panda arm picks up colored cubes from a table and places
-them on matching target pads — simulated with realistic physics in
-[MuJoCo](https://mujoco.org). The arm is driven by **inverse kinematics** and a
-rule-based pick-and-place routine, with automatic success detection and
-quantitative evaluation over randomized episodes.
+A scripted controller picks up three colored cubes and places each on its
+matching pad. The original Panda implementation and the customized Forte
+implementation share the task entry point. Both use simulated contact grasps.
 
-Runs entirely on **CPU** — no GPU required.
+Panda has seven arm joints. The supplied Forte URDF has **six arm joints plus
+one coupled gripper input**; its wrist-to-gripper joint is fixed.
 
-![Pick and place demo](media/demo.gif)
+## Structure
 
-## Highlights
-
-- Realistic 7-joint arm + 2-finger gripper (Google DeepMind's MuJoCo Menagerie model)
-- Inverse kinematics via the MuJoCo Jacobian (damped least squares) — generalizes to any reachable position
-- Smooth, controlled joint motion (ramped position targets, no snapping)
-- Full pick → lift → place → release routine with grasp held under physics
-- Automatic success detection (cube within 5 cm of its target pad)
-- Object randomization + evaluation that reports per-color and overall success rates
-- Offscreen rendering to GIF/MP4 — no display needed
-
-## Results
-
-Evaluated over 12 episodes with cubes randomized across the reachable workspace:
-
-![Success rates](media/success_rates.png)
-
-| Cube  | Success rate |
-|-------|--------------|
-| Red   | 100%         |
-| Green | 100%         |
-| Blue  | 100%         |
-| **Overall** | **100%** |
-
-## Project structure
-
-```
+```text
 robotic-arm-pick-and-place/
-├── README.md
-├── requirements.txt
-├── assets/
-│   └── franka_emika_panda/      # Menagerie Panda model + our scene.xml
-│       ├── panda.xml            # arm model (with an added grasp_site)
-│       └── scene.xml            # arm + table + 3 cubes + 3 target pads + camera
-├── controllers/
-│   └── scripted_controller.py   # IK + pick-and-place routine + success check
-├── scripts/
-│   ├── move_arm.py              # Phase 2: smooth motion demo
-│   ├── run_pick_place.py        # live viewer demo of the full task
-│   └── record_demo.py           # render the task to media/demo.gif
-├── eval/
-│   └── evaluate.py              # randomized episodes + success-rate chart
-├── utils/
-│   └── recording.py             # offscreen GIF/MP4 recorder
-└── media/                       # demo.gif, success_rates.png
+  assets/          Robot models, task scenes, original Forte URDF/STLs
+  configs/        forte.json: arm gains, gripper settings, workspace
+  robots/         Robot interface, named joints, control backends, scene loading
+  controllers/    Scripted tasks, full-pose Forte IK, screened reaching paths
+  scripts/        User entry points: move_arm, run_pick_place, record_demo
+  eval/           Randomized task evaluation
+  utils/          Recording helper
+  tools/          check.py entry point, model builder, diagnostics/
+  tests/          IK and payload planning regression tests
+  docs/           forte.md: integration details and stage checklist
+  outputs/        Generated diagnostics and task reports (ignored by Git)
+  media/          Existing demo GIF and success-rate image
 ```
 
-## Setup (macOS)
+`controllers/scripted_controller.py` retains the original Panda
+`ScriptedController` and adds `ForteController` and `make_controller`.
+`controllers/ik.py` solves Forte tool position **and orientation** using only
+the six named arm joints. `controllers/reaching.py` checks joint limits,
+static torque, collisions, and clearance along each proposed path.
+`robots/forte.py` applies bounded PD and gravity/payload feedforward each
+simulation step. `robots/forte_gripper.py` drives one slider; the other follows
+through the mimic constraint. The main controller functions remain in code;
+test fixtures and generated reports live separately under `tools/` and `outputs/`.
 
-Use Python 3.11 or 3.12.
+## Setup
 
-```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
+Tested locally with Python 3.14 and MuJoCo 3.17. From this repository's outer
+folder, the existing Windows environment can be used directly:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r robotic-arm-pick-and-place/requirements.txt
 ```
 
-The Franka model is included. (It originates from
-[MuJoCo Menagerie](https://github.com/google-deepmind/mujoco_menagerie),
-Apache-2.0; the project adds a single `grasp_site` to `panda.xml` and a custom
-`scene.xml`.)
+For a fresh environment, create a virtual environment first. The robot assets
+are included; the original external Downloads folder is not required.
+Windows/Linux use Python for the live viewer. macOS requires `mjpython` for
+interactive viewing; offscreen and headless checks use Python.
 
-## Running
+## Forte: run and inspect step 5
 
-**Live 3D viewer (full task).** On macOS the interactive viewer must be launched
-with `mjpython` (it ships with the `mujoco` package):
+Run these commands from the **outer repository folder**:
 
-```bash
-mjpython scripts/run_pick_place.py
+```powershell
+# Watch one physical grasp, lift, transfer, release, and return home.
+.\.venv\Scripts\python.exe robotic-arm-pick-and-place/scripts/run_pick_place.py --robot forte --task green
+
+# Run all three without a window; exits with a failure code if any task fails.
+.\.venv\Scripts\python.exe robotic-arm-pick-and-place/scripts/run_pick_place.py --robot forte --task all --headless
 ```
 
-**Record a demo GIF** (renders offscreen, so plain `python` is fine):
+The live viewer runs at approximately simulation speed. A full three-cube
+run takes roughly three simulated minutes. Watch the cube stay between the
+fingers during lift/transfer, leave the fingers during release, settle on its
+matching pad, and remain there as the arm returns home. Close the viewer to exit.
+Use `--collision-geoms` to inspect collision primitives, `--task red`/`blue`
+for a single color, or `--randomize --seed 0` for small spawn perturbations.
+Reports go to `outputs/runs/forte/pick_place_<task>.json`.
 
-```bash
-python scripts/record_demo.py
-# headless server: prefix with MUJOCO_GL=osmesa
+Panda remains the default. For its original task:
+
+```powershell
+.\.venv\Scripts\python.exe robotic-arm-pick-and-place/scripts/run_pick_place.py --robot panda --task green
 ```
 
-**Evaluate** over randomized episodes and produce the chart:
+## One diagnostic entry point
 
-```bash
-python eval/evaluate.py --episodes 20
+```powershell
+.\.venv\Scripts\python.exe robotic-arm-pick-and-place/tools/check.py model --check
+.\.venv\Scripts\python.exe robotic-arm-pick-and-place/tools/check.py model --preview
+.\.venv\Scripts\python.exe robotic-arm-pick-and-place/tools/check.py gripper --viewer
+.\.venv\Scripts\python.exe robotic-arm-pick-and-place/tools/check.py hold --robot forte --viewer
+.\.venv\Scripts\python.exe robotic-arm-pick-and-place/tools/check.py ik --viewer --task green
+.\.venv\Scripts\python.exe -m unittest discover -s robotic-arm-pick-and-place/tests -v
 ```
 
-## How it works
+`model --preview` pauses physics. Gripper calibration uses temporary arm locks
+and a supported cube. `hold` uses the real unbraced task scene. `ik` rehearses
+the route with the gripper open. Only `run_pick_place.py` executes physical
+Forte grasping. Run `tools/check.py model` without `--check` to rebuild the
+MJCF from the included source assets and configuration.
 
-1. **Scene** — `scene.xml` includes the Panda and adds a table, three
-   free-floating cubes, and three massless target sites.
-2. **Inverse kinematics** — given a desired gripper position (and a downward
-   orientation), `ik()` iterates `dq = Jᵀ(JJᵀ + λ²I)⁻¹·error` using the
-   site Jacobian until the gripper reaches the target. It runs on a scratch
-   copy of the state, so it never disturbs the live simulation.
-3. **Motion** — solved joint angles become smooth position-servo targets,
-   ramped gradually so motion looks natural.
-4. **Pick-and-place** — hover, descend, close gripper, lift, travel, lower,
-   release, retreat. Grasping relies on contact friction between the fingertip
-   pads and the cube.
-5. **Success** — a placement counts if the cube ends within 5 cm of its target
-   pad and stays on the table.
 
-## Limitations & future work
-
-- Grasps are top-down on cube-shaped objects within the arm's reachable region.
-- The controller is rule-based (not learned). A natural extension is to wrap the
-  scene as a Gymnasium environment and train a policy with PPO — left as future
-  work since reliable on-CPU training requires significant reward shaping and time.
+See [the Forte guide](docs/forte.md) for the completed stages, configuration,
+validation limits, and the final stage's acceptance criteria.
 
 ## License
 
-Project code: MIT. The Franka Panda model is from MuJoCo Menagerie (Apache-2.0);
-see `assets/franka_emika_panda/LICENSE`.
+Project code: MIT. The original Panda model comes from
+[MuJoCo Menagerie](https://github.com/google-deepmind/mujoco_menagerie)
+(Apache-2.0; see `assets/franka_emika_panda/LICENSE`). Forte source provenance
+and checksums are in `assets/forte_arm/source_manifest.json`; the Panda asset
+license does not establish redistribution rights for the supplied Forte CAD.

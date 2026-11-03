@@ -1,0 +1,133 @@
+{
+  "arm": {
+    "joints": {
+      "shoulder_yaw": {
+        "home_rad": 0.0,
+        "kp_nm_per_rad": 80.0,
+        "kd_nm_s_per_rad": 10.0
+      },
+      "shoulder_pitch": {
+        "home_rad": -0.8,
+        "kp_nm_per_rad": 160.0,
+        "kd_nm_s_per_rad": 24.0
+      },
+      "shoulder_roll": {
+        "home_rad": 0.0,
+        "kp_nm_per_rad": 40.0,
+        "kd_nm_s_per_rad": 4.0
+      },
+      "elbow_pitch": {
+        "home_rad": 1.0,
+        "kp_nm_per_rad": 80.0,
+        "kd_nm_s_per_rad": 10.0
+      },
+      "lower_arm_roll": {
+        "home_rad": 0.0,
+        "kp_nm_per_rad": 8.0,
+        "kd_nm_s_per_rad": 0.3
+      },
+      "wrist_pitch": {
+        "home_rad": -0.2,
+        "kp_nm_per_rad": 20.0,
+        "kd_nm_s_per_rad": 0.6
+      }
+    }
+  },
+  "gripper": {
+    "tool_body": "wrist_link",
+    "tool_site": "grasp_site",
+    "tool_offset_m": [
+      0.227,
+      0.0285,
+      0.0
+    ],
+    "approach_axis_local": [
+      1.0,
+      0.0,
+      0.0
+    ],
+    "closing_axis_local": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "driver_joint": "l_gripper_linear_joint",
+    "follower_joint": "r_gripper_linear_joint",
+    "zero_opening_m": 0.069,
+    "open_width_m": 0.108,
+    "empty_close_width_m": 0.01,
+    "grasp_reference_width_m": 0.03,
+    "kp_n_per_m": 600.0,
+    "kd_n_s_per_m": 12.0,
+    "effort_limit_n": 10.0,
+    "speed_limit_m_per_s": 0.1
+  },
+  "workspace": {
+    "table_center_m": [
+      0.52,
+      0.0,
+      0.1
+    ],
+    "table_half_size_m": [
+      0.32,
+      0.4,
+      0.1
+    ],
+    "hover_z_m": 0.27,
+    "release_clearance_m": 0.01,
+    "cube_spawn_m": {
+      "red": [
+        0.42,
+        -0.1,
+        0.25
+      ],
+      "green": [
+        0.45,
+        0.0,
+        0.25
+      ],
+      "blue": [
+        0.42,
+        0.1,
+        0.25
+      ]
+    },
+    "target_xy_m": {
+      "red": [
+        0.5,
+        -0.1
+      ],
+      "green": [
+        0.52,
+        0.0
+      ],
+      "blue": [
+        0.5,
+        0.1
+      ]
+    },
+    "yaw_candidates_deg": [
+      0.0,
+      180.0,
+      90.0,
+      -90.0
+    ],
+    "grid_x_m": [
+      0.4,
+      0.44,
+      0.48,
+      0.52
+    ],
+    "grid_y_m": [
+      -0.1,
+      0.0,
+      0.1
+    ],
+    "joint_margin_rad": 0.01,
+    "static_torque_fraction": 0.9,
+    "environment_clearance_m": 0.002,
+    "cartesian_spacing_m": 0.005,
+    "joint_check_spacing_rad": 0.02,
+    "reference_speed_rad_per_s": 0.25
+  }
+}

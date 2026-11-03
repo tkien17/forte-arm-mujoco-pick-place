@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='utf-8'?>
+<mujoco model="forte_arm">
+  <compiler angle="radian" discardvisual="false" fusestatic="true" meshdir="source" />
+  <option timestep="0.001" impratio="10" integrator="implicitfast" cone="elliptic" />
+  <asset>
+    <mesh name="base_link" file="base_link.stl" />
+    <mesh name="shoulder_yaw_link" file="shoulder_yaw_link.stl" />
+    <mesh name="shoulder_pitch_link" file="shoulder_pitch_link.stl" />
+    <mesh name="upper_arm_link" file="upper_arm_link.stl" />
+    <mesh name="elbow_link" file="elbow_link.stl" />
+    <mesh name="lower_arm_link" file="lower_arm_link.stl" />
+    <mesh name="wrist_link" file="wrist_link.stl" />
+    <mesh name="gripper_base_link" file="gripper_base_link.stl" />
+    <mesh name="l_end_effector_link" file="l_end_effector_link.stl" />
+    <mesh name="r_end_effector_link" file="r_end_effector_link.stl" />
+  </asset>
+  <worldbody>
+    <frame>
+      <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.723666 0.709829 0.56081 1" density="0" mesh="base_link" />
+      <geom name="base_front_plate" size="0.056 0.09 0.0045" pos="-0.0025 0 0.0045" type="box" rgba="0.723666 0.709829 0.56081 1" />
+      <geom name="base_rear_plate" size="0.0809 0.035 0.0045" pos="-0.1394 0 0.0045" type="box" rgba="0.723666 0.709829 0.56081 1" />
+      <geom name="base_bearing_housing" size="0.0387 0.024" pos="0 0 0.033" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+      <geom name="base_support_web" size="0.045 0.013 0.024" pos="-0.0835 0 0.033" type="box" rgba="0.723666 0.709829 0.56081 1" />
+      <geom name="base_motor_mount" size="0.0275 0.0275 0.024" pos="-0.154 0 0.033" type="box" rgba="0.723666 0.709829 0.56081 1" />
+      <geom name="base_motor_housing" size="0.0263 0.02475" pos="-0.1542 0 0.07175" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+      <body name="shoulder_yaw_link" pos="0 0 0.057">
+        <inertial pos="0.00487467 0.01745718 0.04159057" quat="0.4530171664040418 0.5876918472299818 -0.5508791723102414 0.3820024570044677" mass="3.527" diaginertia="0.02914449637999838 0.023377045867792528 0.015409539752209036" />
+        <joint name="shoulder_yaw" range="-3.141592653589793 3.141592653589793" actuatorfrcrange="-10 10" />
+        <geom name="shoulder_yaw_visual" type="mesh" contype="0" conaffinity="0" group="1" rgba="0.723666 0.709829 0.56081 1" density="0" mesh="shoulder_yaw_link" />
+        <geom name="shoulder_yaw_disk" size="0.125 0.0245" pos="0 0 0.0255" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+        <geom name="shoulder_yaw_front_support" size="0.0418 0.0082 0.031" pos="0 -0.0618 0.081" type="box" rgba="0.723666 0.709829 0.56081 1" />
+        <geom name="shoulder_yaw_front_housing" size="0.0418 0.0082" pos="0 -0.0618 0.112" quat="0.7071067811865476 0.7071067811865476 0 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+        <geom name="shoulder_yaw_rear_housing" size="0.075 0.0245 0.0685" pos="0 0.1055 0.1185" type="box" rgba="0.723666 0.709829 0.56081 1" />
+        <geom name="shoulder_yaw_motor_housing" size="0.0425 0.02525" pos="-0.00075 0.11775 0.112" quat="0.7071067811865476 0.7071067811865476 0 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+        <body name="shoulder_pitch_link" pos="0 -0.07 0.112">
+          <inertial pos="0.01542122 0.09102398 -0.00016758" quat="0.6484759728543039 0.2860593393192986 -0.6465227352932497 0.2822362835777994" mass="0.63710768" diaginertia="0.0026445708132230724 0.002347285634293459 0.0009738422424834686" />
+          <joint name="shoulder_pitch" range="-3.141592653589793 0" actuatorfrcrange="-10 10" axis="0 1 0" />
+          <geom name="shoulder_pitch_visual" type="mesh" contype="0" conaffinity="0" group="1" rgba="0.723666 0.709829 0.56081 1" density="0" mesh="shoulder_pitch_link" />
+          <geom name="shoulder_pitch_pivot" size="0.026 0.015" pos="0 0.0115 0" quat="0.7071067811865476 0.7071067811865476 0 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+          <geom name="shoulder_pitch_roll_housing" size="0.0461 0.03175" pos="-0.01675 0.07 0" quat="0.7071067811865476 0 0.7071067811865476 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+          <geom name="shoulder_pitch_rear_bracket" size="0.0425 0.0255 0.045" pos="0.0055 0.1355 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+          <geom name="shoulder_pitch_motor_support" size="0.0501 0.01465 0.045" pos="0.0981 0.13615 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+          <body name="upper_arm_link" pos="0.002 0.07 0">
+            <inertial pos="0.1430512 -0.00011099 2.978e-05" quat="0.5008867402616554 0.48921128725479157 0.5112901827866798 0.49836446386006417" mass="0.88989758" diaginertia="0.010452623626297463 0.010401465526093596 0.0007486538476089474" />
+            <joint name="shoulder_roll" range="-3.141592653589793 3.141592653589793" actuatorfrcrange="-10 10" axis="1 0 0" />
+            <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.723666 0.709829 0.56081 1" density="0" mesh="upper_arm_link" />
+            <geom name="upper_arm_roll_collar" size="0.0385 0.01375" pos="0.01375 0 0" quat="0.7071067811865476 0 0.7071067811865476 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+            <geom name="upper_arm_proximal_beam" size="0.07225 0.0295 0.03" pos="0.09975 0 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+            <geom name="upper_arm_motor_housing" size="0.047 0.0295" pos="0.10825 0 0" quat="0.7071067811865476 0.7071067811865476 0 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+            <geom name="upper_arm_beam" size="0.049 0.0195 0.026" pos="0.221 0 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+            <geom name="upper_arm_distal_sleeve" size="0.01 0.0295 0.026" pos="0.28 0 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+            <geom name="upper_arm_elbow_bridge" size="0.0265 0.03775 0.032" pos="0.3165 0.00325 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+            <geom name="upper_arm_elbow_housing" size="0.0355 0.03775" pos="0.358 0.00325 0" quat="0.7071067811865476 0.7071067811865476 0 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+            <body name="elbow_link" pos="0.358 -0.0345 0">
+              <inertial pos="0.0285766 0.03343643 0.01777022" quat="0.5058414593612237 0.4935726626055576 0.49531964640917975 0.5051424478311599" mass="0.4971369" diaginertia="0.0014466294262356965 0.001214723696272971 0.0005361378774913331" />
+              <joint name="elbow_pitch" range="-1.85 2.3" actuatorfrcrange="-10 10" axis="0 1 0" />
+              <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.723666 0.709829 0.56081 1" density="0" mesh="elbow_link" />
+              <geom name="elbow_lower_motor" size="0.0236 0.0235" pos="-0.0135 0.0335 -0.01" quat="0.7071067811865476 0 0.7071067811865476 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+              <geom name="elbow_upper_motor" size="0.0236 0.0235" pos="-0.0135 0.0335 0.05" quat="0.7071067811865476 0 0.7071067811865476 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+              <geom name="elbow_pivot_carrier" size="0.02275 0.0355 0.0555" pos="-0.00225 0.0355 0.02" type="box" rgba="0.723666 0.709829 0.56081 1" />
+              <geom name="elbow_roll_housing" size="0.0271 0.04975" pos="0.07025 0.0335 0.02" quat="0.7071067811865476 0 0.7071067811865476 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+              <geom name="elbow_lower_mount" size="0.021 0.0225" pos="0.0325 0.0335 -0.01" quat="0.7071067811865476 0 0.7071067811865476 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+              <geom name="elbow_upper_mount" size="0.021 0.0135" pos="0.0235 0.0335 0.05" quat="0.7071067811865476 0 0.7071067811865476 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+              <geom name="elbow_retaining_clip" size="0.00825 0.0085 0.00325" pos="0.11175 0.0335 -0.00625" type="box" rgba="0.723666 0.709829 0.56081 1" />
+              <body name="lower_arm_link" pos="0.118 0.0335 0.02">
+                <inertial pos="0.08883208 3.267e-05 -4.893e-05" quat="0.0008219666448142093 0.7069937697996151 0.0013706277474517248 0.7072179686736932" mass="0.50695188" diaginertia="0.004082664507869823 0.00407074325421973 0.00014115523791043879" />
+                <joint name="lower_arm_roll" range="-3.141592653589793 3.141592653589793" actuatorfrcrange="-10 10" axis="1 0 0" />
+                <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.723666 0.709829 0.56081 1" density="0" mesh="lower_arm_link" />
+                <geom name="lower_arm_shaft" size="0.0185 0.13885" pos="0.06585 0 0" quat="0.7071067811865476 0 0.7071067811865476 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+                <geom name="lower_arm_shaft_clip" size="0.00825 0.00835 0.00225" pos="0.00925 0 -0.01875" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                <geom name="lower_arm_wrist_bridge" size="0.0083 0.0285 0.023" pos="0.213 0 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                <geom name="lower_arm_wrist_front_plate" size="0.02675 0.00425 0.023" pos="0.24675 -0.02425 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                <geom name="lower_arm_wrist_rear_plate" size="0.02675 0.00425 0.023" pos="0.24675 0.02425 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                <body name="wrist_link" pos="0.247 -0.0285 0">
+                  <inertial pos="0.06875616486439533 0.02865371762222085 0.01686157127726995" quat="0.4477899728738014 0.5408251917452217 0.5689499903004711 0.42812166577331884" mass="0.49413971" diaginertia="0.001319668548372093 0.0010929277494428988 0.0006034635160180993" />
+                  <joint name="wrist_pitch" range="-1.73 1.6" actuatorfrcrange="-10 10" axis="0 1 0" />
+                  <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.723666 0.709829 0.56081 1" density="0" mesh="wrist_link" />
+                  <geom name="wrist_front_hinge_plate" size="0.03225 0.00525 0.023" pos="0.01425 0.00025 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                  <geom name="wrist_rear_hinge_plate" size="0.03225 0.00525 0.023" pos="0.01425 0.05675 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                  <geom name="wrist_pivot_shaft" size="0.0061 0.0335" pos="0 0.0285 0" quat="0.7071067811865476 0.7071067811865476 0 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+                  <geom name="wrist_motor_housing" size="0.0236 0.0235" pos="0.067 0.0285 0.0005" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+                  <geom name="wrist_bottom_support" size="0.03 0.035 0.002" pos="0.06 0.0295 -0.025" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                  <geom name="wrist_upper_housing" size="0.017 0.0454 0.0262" pos="0.0535 0.0295 0.0492" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                  <geom name="wrist_motor_bracket" size="0.00725 0.023 0.023" pos="0.04025 0.0285 0" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                  <site name="grasp_site" size="0.005 0 0" pos="0.227 0.0285 0" rgba="0 1 0 1" />
+                  <frame pos="0.067 0.0285 0.021">
+                    <geom type="mesh" contype="0" conaffinity="0" group="1" rgba="0.723666 0.709829 0.56081 1" density="0" mesh="gripper_base_link" />
+                    <geom name="gripper_mounting_plate" size="0.02125 0.0175 0.00225" pos="0.00525 0 0.00225" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                    <geom name="gripper_mounting_adapter" size="0.00925 0.0175 0.01925" pos="0.02425 0 -0.01925" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                    <geom name="gripper_motor_housing" size="0.0236 0.0285" pos="0.055 0 -0.021" quat="0.7071067811865476 0 0.7071067811865476 0" type="cylinder" rgba="0.723666 0.709829 0.56081 1" />
+                    <geom name="gripper_guide_backplate" size="0.0039 0.028 0.0235" pos="0.0844 0 -0.020995" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                    <geom name="gripper_left_guide" size="0.0025 0.0095 0.006" pos="0.0886 -0.0185 -0.031" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                    <geom name="gripper_right_guide" size="0.0025 0.0095 0.006" pos="0.0886 0.0185 -0.011" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                    <body name="l_end_effector_link" pos="0.0884 -0.0185 -0.031" quat="0.7071067811865476 0 0 0.7071067811865476">
+                      <inertial pos="-0.01974555 -0.02969483 0.00780606" quat="0.7646529164516978 0.6439134269688436 -0.003570415047229403 0.025858616891559362" mass="0.04826781" diaginertia="2.664385813497322e-05 2.4766288879167474e-05 8.415492985859317e-06" />
+                      <joint name="l_gripper_linear_joint" type="slide" range="-0.02 0.03" actuatorfrcrange="-10 10" axis="1 0 0" />
+                      <geom quat="0.7071067811865476 0 0 -0.7071067811865476" type="mesh" contype="0" conaffinity="0" group="1" rgba="0.723666 0.709829 0.56081 1" density="0" mesh="l_end_effector_link" />
+                      <geom name="l_finger_slider_plate" size="0.00185 0.03 0.003" pos="-0.015 -0.00185 0" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                      <geom name="l_finger_root_attachment" size="0.0035 0.01225 0.00825" pos="-0.02825 -0.0071 0.00525" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                      <geom name="l_finger_mount_transition" size="0.0047 0.01225 0.021" pos="-0.02825 -0.0153 0.01" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                      <geom name="l_finger_finger_body" size="0.02 0.00405 0.021" pos="-0.02005 -0.04 0.01" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                      <geom name="l_finger_finger_taper" size="0.0075 0.0028 0.0165" pos="-0.0188 -0.0675 0.01" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                      <geom name="l_finger_finger_tip" size="0.0043 0.0015 0.0105" pos="-0.0175 -0.0793 0.01" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                    </body>
+                    <body name="r_end_effector_link" pos="0.0884 0.0185 -0.011" quat="0.7071067811865476 0 0 0.7071067811865476">
+                      <inertial pos="0.0300034 0.01332065 -0.01350307" quat="0.4527908860151919 0.558976065833193 0.5224064591209397 0.4578402153982848" mass="0.04826781" diaginertia="2.66438581349732e-05 2.4766288879167464e-05 8.415492985859312e-06" />
+                      <joint name="r_gripper_linear_joint" type="slide" range="-0.03 0.02" actuatorfrcrange="-10 10" axis="1 0 0" />
+                      <geom quat="0.7071067811865476 0 0 -0.7071067811865476" type="mesh" contype="0" conaffinity="0" group="1" rgba="0.723666 0.709829 0.56081 1" density="0" mesh="r_end_effector_link" />
+                      <geom name="r_finger_slider_plate" size="0.00185 0.03 0.003" pos="0.015 -0.00185 0" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                      <geom name="r_finger_root_attachment" size="0.0035 0.01225 0.00825" pos="0.02825 -0.0071 -0.00525" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                      <geom name="r_finger_mount_transition" size="0.0047 0.01225 0.021" pos="0.02825 -0.0153 -0.01" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                      <geom name="r_finger_finger_body" size="0.02 0.00405 0.021" pos="0.02005 -0.04 -0.01" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                      <geom name="r_finger_finger_taper" size="0.0075 0.0028 0.0165" pos="0.0188 -0.0675 -0.01" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                      <geom name="r_finger_finger_tip" size="0.0043 0.0015 0.0105" pos="0.0175 -0.0793 -0.01" quat="0.7071067811865476 0 0 -0.7071067811865476" type="box" rgba="0.723666 0.709829 0.56081 1" />
+                    </body>
+                  </frame>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </frame>
+  </worldbody>
+  <equality>
+    <joint name="gripper_mimic" joint1="r_gripper_linear_joint" joint2="l_gripper_linear_joint" polycoef="0 -1 0 0 0" solref="0.002" solimp="0.999 0.999" />
+  </equality>
+</mujoco>

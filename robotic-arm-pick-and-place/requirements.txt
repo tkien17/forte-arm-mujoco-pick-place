@@ -1,4 +1,4 @@
-mujoco>=3.0
+mujoco>=3.17,<4
 numpy
 matplotlib
 imageio
